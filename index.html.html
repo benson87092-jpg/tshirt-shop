@@ -1,579 +1,125 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的T恤商店</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-            min-height: 100vh;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-        body.dark-mode {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            color: #f0f0f0;
-        }
-        header {
-            background: linear-gradient(135deg, #FF6B35, #F7931E);
-            color: white;
-            text-align: center;
-            padding: 1em;
-            box-shadow: 0 2px 10px rgba(255,107,53,0.3);
-        }
-        body.dark-mode header {
-            background: linear-gradient(135deg, #E55A2B, #D4491A);
-        }
-        nav {
-            background-color: #333;
-            overflow: hidden;
-            transition: background-color 0.3s ease;
-        }
-        body.dark-mode nav {
-            background-color: #222;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #ddd;
-            color: black;
-            transition: background-color 0.3s ease;
-        }
-        body.dark-mode nav a:hover {
-            background-color: #444;
-            color: white;
-        }
-        .dark-toggle {
-            float: right;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 14px 16px;
-        }
-        .dark-toggle:hover {
-            background-color: #ddd;
-            color: black;
-        }
-        body.dark-mode .dark-toggle:hover {
-            background-color: #444;
-            color: white;
-        }
-        .carousel {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-        .carousel-slide {
-            min-width: 100%;
-            box-sizing: border-box;
-        }
-        .carousel-slide img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-        }
-        .carousel-dots {
-            text-align: center;
-            padding: 10px 0;
-        }
-        .dot {
-            height: 12px;
-            width: 12px;
-            margin: 0 5px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .active-dot {
-            background-color: #FF6B35;
-        }
-        body.dark-mode .dot {
-            background-color: #555;
-        }
-        body.dark-mode .active-dot {
-            background-color: #E55A2B;
-        }
-        .search-bar {
-            padding: 20px;
-            text-align: center;
-            background: rgba(255,255,255,0.8);
-            transition: background 0.3s ease;
-        }
-        body.dark-mode .search-bar {
-            background: rgba(40,40,40,0.8);
-        }
-        #searchInput {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-        body.dark-mode #searchInput {
-            background: #333;
-            color: #f0f0f0;
-            border-color: #555;
-        }
-        #searchInput:focus {
-            outline: none;
-            border-color: #FF6B35;
-        }
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-            opacity: 0;
-            animation: fadeInDown 1s ease forwards;
-            transition: background-color 0.3s ease;
-        }
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        body.dark-mode .product {
-            background-color: #2a2a2a;
-            border-color: #444;
-            color: #f0f0f0;
-        }
-        body.dark-mode .price {
-            color: #E55A2B;
-        }
-        .loading {
-            display: flex;
-            justify-content: center;
-            padding: 50px;
-        }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #FF6B35;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        body.dark-mode .spinner {
-            border-color: #333;
-            border-top-color: #E55A2B;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .product {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .product:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        body.dark-mode .product:hover {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .product img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-        }
-        .product:hover img {
-            transform: scale(1.1);
-        }
-        .product h3 {
-            margin: 10px 0;
-        }
-        .price {
-            font-size: 1.2em;
-            color: #FF6B35;
-            font-weight: 600;
-        }
-        .quantity-select {
-            margin: 10px 0;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            transition: border-color 0.3s ease;
-        }
-        body.dark-mode .quantity-select {
-            background: #333;
-            color: #f0f0f0;
-            border-color: #555;
-        }
-        #cart {
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 12px;
-            transition: background-color 0.3s ease;
-        }
-        body.dark-mode #cart {
-            background-color: #2a2a2a;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-        #cart ul {
-            list-style: none;
-            padding: 0;
-        }
-        #cart li {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: border-bottom-color 0.3s ease;
-            color: #333;
-        }
-        body.dark-mode #cart li {
-            border-bottom-color: #444;
-            color: #f0f0f0;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        #cart li button {
-            background: #ff4444;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        button {
-            background-color: #FF6B35;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin: 5px;
-        }
-        body.dark-mode button {
-            background-color: #E55A2B;
-        }
-        button:hover {
-            background-color: #E55A2B;
-            transform: translateY(-2px);
-        }
-        body.dark-mode button:hover {
-            background-color: #D4491A;
-        }
-        .pay-button {
-            background-color: #4CAF50 !important;
-        }
-        .pay-button:hover {
-            background-color: #45a049 !important;
-        }
-        #checkoutForm input {
-            margin: 5px;
-            padding: 8px;
-            width: 200px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            transition: border-color 0.3s ease;
-        }
-        body.dark-mode #checkoutForm input {
-            background: #333;
-            color: #f0f0f0;
-            border-color: #555;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            margin-top: 40px;
-            transition: background-color 0.3s ease;
-        }
-        body.dark-mode footer {
-            background-color: #222;
-        }
-        .hidden {
-            display: none !important;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>T-shirt 商店</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      margin: 0;
+      background-color: #f7f7f7;
+    }
+    header {
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 24px;
+      letter-spacing: 1px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 15px;
+      text-align: center;
+    }
+    .card-content h3 {
+      margin: 10px 0;
+    }
+    .price {
+      color: #e91e63;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #111;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+    .btn:hover {
+      background-color: #333;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      color: #fff;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>🛒 我的T恤商店</h1>
-        <p>歡迎選購超可愛的T恤！</p>
-    </header>
-    
-    <nav>
-        <a href="#home" onclick="scrollToSection('home')">首頁</a>
-        <a href="#cart" onclick="scrollToSection('cart')">購物車</a>
-        <button class="dark-toggle" onclick="toggleDarkMode()" id="darkToggle">🌙</button>
-    </nav>
+  <header>
+    👕 T-shirt 商店
+  </header>
 
-    <div class="carousel" id="carousel">
-        <div class="carousel-slides" id="slides">
-            <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=400&fit=crop&crop=center" alt="T恤輪播1"></div>
-            <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=1200&h=400&fit=crop&crop=center" alt="T恤輪播2"></div>
-            <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1200&h=400&fit=crop&crop=center" alt="T恤輪播3"></div>
-        </div>
-        <div class="carousel-dots" id="dots"></div>
+  <div class="container">
+    <div class="card">
+      <img src="https://picsum.photos/id/1011/400/300" alt="白色 T-shirt">
+      <div class="card-content">
+        <h3>白色經典 T-shirt</h3>
+        <p class="price">$390</p>
+        <a href="#" class="btn">加入購物車</a>
+      </div>
     </div>
-    
-    <main>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="搜尋 T恤（例如：貓咪）">
-            <button onclick="filterProducts()">搜尋</button>
-        </div>
-        <section id="home" class="products">
-            <div class="product">
-                <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=250&h=200&fit=crop&crop=face" alt="可愛貓咪T恤">
-                <h3>可愛貓咪T恤</h3>
-                <p class="price">NT$300</p>
-                <button onclick="addToCart('可愛貓咪T恤', 300)">加入購物車</button>
-            </div>
-            <div class="product">
-                <img src="https://images.unsplash.com/photo-1561948955-570b270e7c36?w=250&h=200&fit=crop&crop=face" alt="狗狗T恤">
-                <h3>狗狗T恤</h3>
-                <p class="price">NT$250</p>
-                <button onclick="addToCart('狗狗T恤', 250)">加入購物車</button>
-            </div>
-            <div class="product">
-                <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e4?w=250&h=200&fit=crop&crop=center" alt="星星T恤">
-                <h3>星星T恤</h3>
-                <p class="price">NT$350</p>
-                <button onclick="addToCart('星星T恤', 350)">加入購物車</button>
-            </div>
-            <div class="product">
-                <img src="https://images.unsplash.com/photo-1543852786-904f5e5e0f4b?w=250&h=200&fit=crop&crop=face" alt="兔子T恤">
-                <h3>兔子T恤</h3>
-                <p class="price">NT$280</p>
-                <button onclick="addToCart('兔子T恤', 280)">加入購物車</button>
-            </div>
-            <div class="product">
-                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=250&h=200&fit=crop&crop=face" alt="熊熊T恤">
-                <h3>熊熊T恤</h3>
-                <p class="price">NT$320</p>
-                <button onclick="addToCart('熊熊T恤', 320)">加入購物車</button>
-            </div>
-            <div class="product">
-                <img src="https://images.unsplash.com/photo-1608042252358-0f5c3d3b7b0d?w=250&h=200&fit=crop&crop=center" alt="彩虹T恤">
-                <h3>彩虹T恤</h3>
-                <p class="price">NT$400</p>
-                <button onclick="addToCart('彩虹T恤', 400)">加入購物車</button>
-            </div>
-        </section>
-        
-        <section id="cart">
-            <h2>購物車</h2>
-            <p>這裡會顯示你選的產品。</p>
-        </section>
-    </main>
-    
-    <footer>
-        <p>&copy; 2025 我的T恤商店。所有權利保留。</p>
-    </footer>
 
-    <script>
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const totalSlides = slides.length;
+    <div class="card">
+      <img src="https://picsum.photos/id/1005/400/300" alt="黑色 T-shirt">
+      <div class="card-content">
+        <h3>黑色簡約 T-shirt</h3>
+        <p class="price">$420</p>
+        <a href="#" class="btn">加入購物車</a>
+      </div>
+    </div>
 
-        function showSlide(index) {
-            document.getElementById('slides').style.transform = `translateX(-${index * 100}%)`;
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach(dot => dot.classList.remove('active-dot'));
-            if (dots[index]) dots[index].classList.add('active-dot');
-        }
+    <div class="card">
+      <img src="https://picsum.photos/id/1025/400/300" alt="藍色 T-shirt">
+      <div class="card-content">
+        <h3>藍色休閒 T-shirt</h3>
+        <p class="price">$450</p>
+        <a href="#" class="btn">加入購物車</a>
+      </div>
+    </div>
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            showSlide(currentSlide);
-        }
+    <div class="card">
+      <img src="https://picsum.photos/id/1035/400/300" alt="灰色 T-shirt">
+      <div class="card-content">
+        <h3>灰色運動 T-shirt</h3>
+        <p class="price">$480</p>
+        <a href="#" class="btn">加入購物車</a>
+      </div>
+    </div>
+  </div>
 
-        function initCarousel() {
-            const dotsContainer = document.getElementById('dots');
-            slides.forEach((_, index) => {
-                const dot = document.createElement('span');
-                dot.classList.add('dot');
-                if (index === 0) dot.classList.add('active-dot');
-                dot.onclick = () => showSlide(index);
-                dotsContainer.appendChild(dot);
-            });
-            setInterval(nextSlide, 5000);
-            showSlide(0);
-        }
-
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
-            localStorage.setItem('darkMode', isDark);
-        }
-
-        function addToCart(name, price) {
-            let qtySelect = document.getElementById('qty-' + name.replace(/\s+/g, '-'));
-            let qty = qtySelect ? parseInt(qtySelect.value) || 1 : 1;
-            let totalPrice = price * qty;
-            let item = { name: name, price: price, qty: qty, total: totalPrice };
-            let existing = cart.find(c => c.name === name);
-            if (existing) {
-                existing.qty += qty;
-                existing.total += totalPrice;
-            } else {
-                cart.push(item);
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartDisplay();
-            alert('已加入 ' + qty + ' 件 ' + name + ' - NT$' + totalPrice);
-        }
-
-        function updateCartDisplay() {
-            const cartSection = document.getElementById('cart');
-            let cartHtml = '<h2>購物車</h2><ul>';
-            let total = 0;
-            cart.forEach((item, index) => {
-                cartHtml += `<li style="animation-delay: ${index * 0.1}s;">${item.name} x${item.qty} - NT$${item.total} <button onclick="removeFromCart(${index})">X</button></li>`;
-                total += item.total;
-            });
-            cartHtml += '</ul><p>總計：NT$' + total + '</p>';
-            cartHtml += '<form id="checkoutForm"><br><input type="text" id="customerName" placeholder="姓名" required><br><input type="email" id="customerEmail" placeholder="Email" required><br><button type="submit">送出訂單 (Email)</button></form>';
-            cartHtml += '<button class="pay-button" onclick="simulatePayment(' + total + ')">支付 NT$' + total + '</button>';
-            cartSection.innerHTML = cartHtml;
-
-            const form = document.getElementById('checkoutForm');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const name = document.getElementById('customerName').value;
-                    const email = document.getElementById('customerEmail').value;
-                    if (cart.length > 0 && name && email) {
-                        const subject = encodeURIComponent('T恤商店訂單確認');
-                        const body = encodeURIComponent(`姓名: ${name}\nEmail: ${email}\n訂單細節:\n${cart.map(i => `${i.name} x${i.qty} - NT$${i.total}`).join('\n')}\n總計: NT$${total}`);
-                        window.location.href = `mailto:shop@example.com?subject=${subject}&body=${body}`;
-                        alert('訂單已發送至 email！請檢查收件匣。');
-                        clearCart();
-                    } else {
-                        alert('請填寫完整資訊！');
-                    }
-                });
-            }
-        }
-
-        function simulatePayment(total) {
-            if (cart.length > 0) {
-                alert(`支付成功！總額 NT$${total} 已扣款。訂單完成～`);
-                clearCart();
-            } else {
-                alert('購物車是空的！');
-            }
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartDisplay();
-        }
-
-        function clearCart() {
-            cart = [];
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartDisplay();
-        }
-
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function filterProducts() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const products = document.querySelectorAll('.product');
-            products.forEach(product => {
-                const name = product.querySelector('h3').textContent.toLowerCase();
-                if (name.includes(query)) {
-                    product.classList.remove('hidden');
-                } else {
-                    product.classList.add('hidden');
-                }
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // 加數量選單
-            const products = document.querySelectorAll('.product');
-            products.forEach(product => {
-                const name = product.querySelector('h3').textContent;
-                const button = product.querySelector('button');
-                const qtySelect = document.createElement('select');
-                qtySelect.id = 'qty-' + name.replace(/\s+/g, '-');
-                qtySelect.className = 'quantity-select';
-                for (let i = 1; i <= 5; i++) {
-                    const option = document.createElement('option');
-                    option.value = i;
-                    option.textContent = i;
-                    qtySelect.appendChild(option);
-                }
-                button.parentNode.insertBefore(qtySelect, button);
-            });
-            updateCartDisplay();
-            initCarousel();
-
-            // 載入 spinner
-            const productsSection = document.getElementById('home');
-            productsSection.classList.add('loading');
-            setTimeout(() => {
-                productsSection.classList.remove('loading');
-            }, 1000);
-
-            // 載入暗黑模式
-            const isDark = localStorage.getItem('darkMode') === 'true';
-            if (isDark) {
-                document.body.classList.add('dark-mode');
-                document.getElementById('darkToggle').textContent = '☀️';
-            }
-        });
-    </script>
+  <footer>
+    © 2025 T-shirt 商店 | 由 Benson 製作
+  </footer>
 </body>
 </html>
